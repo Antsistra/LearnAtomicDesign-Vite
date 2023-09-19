@@ -34,14 +34,22 @@ const Email = localStorage.getItem("email");
 const MainPage = () => {
   const [cart, setCart] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
+
   useEffect(() => {
-    const sum = cart.reduce((acc, item) => {
-      const product = products.find(
-        (product) => product.id === item.id
-      );
-      return (acc = product.price * item.qty);
-    }, 0);
-    setTotalPrice(sum);
+    setCart(JSON.parse(localStorage.getItem("cart")) || []);
+  }, []);
+
+  useEffect(() => {
+    if (cart.length > 0) {
+      const sum = cart.reduce((acc, item) => {
+        const product = products.find(
+          (product) => product.id === item.id
+        );
+        return (acc = product.price * item.qty);
+      }, 0);
+      setTotalPrice(sum);
+      localStorage.setItem("cart", JSON.stringify(cart));
+    }
   }, [cart]);
 
   const handleLogout = () => {
@@ -82,8 +90,8 @@ const MainPage = () => {
           Logout
         </Button>
       </Navbar>
-      <div className="lg:flex justify-center pt-4 bg-white px-4 my-2">
-        <div className="lg:w-4/6 flex flex-wrap  px-0 py-2 gap-x-4 gap-y-4">
+      <div className="lg:flex justify-center pt-4 bg-white  my-4 ">
+        <div className="lg:w-4/6 flex flex-wrap  px-0 py-2 gap-x-4 gap-y-4 mx-4">
           {products.map((products) => (
             <Kartu key={products.id}>
               <Kartu.Header
@@ -99,12 +107,12 @@ const MainPage = () => {
             </Kartu>
           ))}
         </div>
-        <div className="lg:w-2/4 ">
+        <div className="lg:w-1/4 ">
           <h1 className="text-3xl font-bold text-blue-600 ml-5 mb-2">
             Cart
           </h1>
           <table className="text-left table-auto border-separate border-spacing-x-5">
-            <thead>
+            <thead className="">
               <tr>
                 <th>Product</th>
                 <th>Price</th>
@@ -130,7 +138,7 @@ const MainPage = () => {
                       )}
                     </td>
                     <td>{item.qty}</td>
-                    <td>
+                    <td className="">
                       {(
                         product.price * item.qty
                       ).toLocaleString("id-ID", {
