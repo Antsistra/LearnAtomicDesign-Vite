@@ -6,7 +6,14 @@ export default class Count extends Component {
     this.state = {
       count: 0,
     };
+    console.log("constructor");
   }
+
+  /*  componentDidMount() {
+    this.setState({ count: 100 });
+    console.log("ini componentDidMount");
+  }}*/
+
   render() {
     return (
       <div className="flex justify-center items-center  mt-10">

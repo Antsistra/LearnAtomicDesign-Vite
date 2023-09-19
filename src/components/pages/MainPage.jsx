@@ -1,7 +1,8 @@
 import Button from "../Elements/Button";
 import Kartu from "../Fragments/Kartu";
 import Navbar from "../Elements/Navbar";
-import { useState } from "react";
+import Count from "../Fragments/Count";
+import { useEffect, useState } from "react";
 const products = [
   {
     id: 1,
@@ -31,12 +32,26 @@ const products = [
 
 const Email = localStorage.getItem("email");
 const MainPage = () => {
-  const [cart, setCart] = useState([
-    {
-      id: 1,
-      qty: 1,
-    },
-  ]);
+  const [cart, setCart] = useState([]);
+  const [totalPrice, setTotalPrice] = useState(0);
+
+  useEffect(() => {
+    setCart(JSON.parse(localStorage.getItem("cart")) || []);
+  }, []);
+
+  useEffect(() => {
+    if (cart.length > 0) {
+      const sum = cart.reduce((acc, item) => {
+        const product = products.find(
+          (product) => product.id === item.id
+        );
+        return (acc = product.price * item.qty);
+      }, 0);
+      setTotalPrice(sum);
+      localStorage.setItem("cart", JSON.stringify(cart));
+    }
+  }, [cart]);
+
   const handleLogout = () => {
     localStorage.removeItem("email");
     localStorage.removeItem("password");
@@ -62,6 +77,7 @@ const MainPage = () => {
       ]);
     }
   };
+
   return (
     //<Cards title="Kucing" harga="Rp100.000">Lorem ipsum dolor sit amet.</Cards>
 
@@ -74,8 +90,8 @@ const MainPage = () => {
           Logout
         </Button>
       </Navbar>
-      <div className="lg:flex justify-center pt-4 bg-white px-4 my-2">
-        <div className="lg:w-4/6 flex flex-wrap  px-0 py-2 gap-x-4 gap-y-4">
+      <div className="lg:flex justify-center pt-4 bg-white  my-4 ">
+        <div className="lg:w-4/6 flex flex-wrap  px-0 py-2 gap-x-4 gap-y-4 mx-4">
           {products.map((products) => (
             <Kartu key={products.id}>
               <Kartu.Header
@@ -91,12 +107,12 @@ const MainPage = () => {
             </Kartu>
           ))}
         </div>
-        <div className="lg:w-2/4 ">
+        <div className="lg:w-1/4 ">
           <h1 className="text-3xl font-bold text-blue-600 ml-5 mb-2">
             Cart
           </h1>
           <table className="text-left table-auto border-separate border-spacing-x-5">
-            <thead>
+            <thead className="">
               <tr>
                 <th>Product</th>
                 <th>Price</th>
@@ -104,33 +120,53 @@ const MainPage = () => {
                 <th>Total</th>
               </tr>
             </thead>
-            {cart.map((item) => {
-              const product = products.find(
-                (product) => product.id === item.id
-              );
-              return (
-                <tr key={item.id}>
-                  <td>{product.title}</td>
-                  <td>
-                    {product.price.toLocaleString("id-ID", {
-                      style: "currency",
-                      currency: "IDR",
-                    })}
-                  </td>
-                  <td>{item.qty}</td>
-                  <td>
-                    {(
-                      product.price * item.qty
-                    ).toLocaleString("id-ID", {
-                      style: "currency",
-                      currency: "IDR",
-                    })}
-                  </td>
-                </tr>
-              );
-            })}
+            <tbody>
+              {cart.map((item) => {
+                const product = products.find(
+                  (product) => product.id === item.id
+                );
+                return (
+                  <tr key={item.id}>
+                    <td>{product.title}</td>
+                    <td>
+                      {product.price.toLocaleString(
+                        "id-ID",
+                        {
+                          style: "currency",
+                          currency: "IDR",
+                        }
+                      )}
+                    </td>
+                    <td>{item.qty}</td>
+                    <td className="">
+                      {(
+                        product.price * item.qty
+                      ).toLocaleString("id-ID", {
+                        style: "currency",
+                        currency: "IDR",
+                      })}
+                    </td>
+                  </tr>
+                );
+              })}
+              <tr>
+                <td colSpan={3} className="font-bold">
+                  Total Price
+                </td>
+                <td>
+                  {" "}
+                  {totalPrice.toLocaleString("id-ID", {
+                    style: "currency",
+                    currency: "IDR",
+                  })}
+                </td>
+              </tr>
+            </tbody>
           </table>
         </div>
+        {/* <div className="mt-5 flex justify-center">
+          <Count />
+            </div>*/}
       </div>
     </>
   );
