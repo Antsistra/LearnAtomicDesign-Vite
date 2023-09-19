@@ -1,56 +1,48 @@
 import Button from "../Elements/Button";
 import Kartu from "../Fragments/Kartu";
 import Navbar from "../Elements/Navbar";
-import Count from "../Fragments/Count";
 import { useEffect, useState } from "react";
-const products = [
-  {
-    id: 1,
-    title: "Mobil Balap",
-    price: 1000000,
-    description: "Lorem ipsum dolor sit amet.",
-    image:
-      "https://source.unsplash.com/random/200×200?cars",
-  },
-  {
-    id: 2,
-    title: "Keyboard Geming ",
-    price: 3000000,
-    description: "Lorem ipsum dolor sit amet.",
-    image:
-      "https://source.unsplash.com/random/200×200?keyboard",
-  },
-  {
-    id: 3,
-    title: "Makanan",
-    price: 200000,
-    description: "Lorem",
-    image:
-      "https://source.unsplash.com/random/200×200?food",
-  },
-];
+import { getProducts } from "../../services/products.service";
 
 const Email = localStorage.getItem("email");
 const MainPage = () => {
   const [cart, setCart] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [products, setProducts] = useState([]);
+
+  const handleCleanCart = () => {
+    setCart([]);
+    setTotalPrice(0);
+    localStorage.removeItem("cart");
+
+    if (parentElement.contains(childElement)) {
+      childElement.remove();
+    }
+    alert("Data Telah Dibersihkan");
+  };
 
   useEffect(() => {
     setCart(JSON.parse(localStorage.getItem("cart")) || []);
   }, []);
 
   useEffect(() => {
-    if (cart.length > 0) {
+    getProducts((data) => {
+      setProducts(data);
+    });
+  });
+
+  useEffect(() => {
+    if (products.length && cart.length > 0) {
       const sum = cart.reduce((acc, item) => {
         const product = products.find(
           (product) => product.id === item.id
         );
-        return (acc = product.price * item.qty);
+        return acc + product.price * item.qty;
       }, 0);
       setTotalPrice(sum);
       localStorage.setItem("cart", JSON.stringify(cart));
     }
-  }, [cart]);
+  }, [cart, products]);
 
   const handleLogout = () => {
     localStorage.removeItem("email");
@@ -83,31 +75,32 @@ const MainPage = () => {
 
     <>
       <Navbar>
-        <p className="hidden lg:block">{Email}</p>
+        <p className="hidden lg:block mt-2">{Email}</p>
         <Button
           classname="ml-4 bg-white font-bold text-[#172b4d]  "
           onClick={handleLogout}>
           Logout
         </Button>
       </Navbar>
-      <div className="lg:flex justify-center pt-4 bg-white  my-4 ">
-        <div className="lg:w-4/6 flex flex-wrap  px-0 py-2 gap-x-4 gap-y-4 mx-4">
-          {products.map((products) => (
-            <Kartu key={products.id}>
-              <Kartu.Header
-                image={products.image}></Kartu.Header>
-              <Kartu.Body title={products.title}>
-                {products.description}
-              </Kartu.Body>
-              <Kartu.Footer
-                id={products.id}
-                handleAddToCart={handleAddToCart}>
-                {products.price}
-              </Kartu.Footer>
-            </Kartu>
-          ))}
+      <div className="lg:flex justify-center pt-4 lg:mx-12 bg-white  my-4">
+        <div className="flex flex-wrap lg:w-4/6 py-2 gap-x-4 gap-y-4 mx-4 mb-4">
+          {products.length > 0 &&
+            products.map((products) => (
+              <Kartu key={products.id}>
+                <Kartu.Header
+                  image={products.image}></Kartu.Header>
+                <Kartu.Body title={products.title}>
+                  {products.description}
+                </Kartu.Body>
+                <Kartu.Footer
+                  id={products.id}
+                  handleAddToCart={handleAddToCart}>
+                  {products.price}
+                </Kartu.Footer>
+              </Kartu>
+            ))}
         </div>
-        <div className="lg:w-1/4 ">
+        <div className="w-2/6 ">
           <h1 className="text-3xl font-bold text-blue-600 ml-5 mb-2">
             Cart
           </h1>
@@ -121,34 +114,35 @@ const MainPage = () => {
               </tr>
             </thead>
             <tbody>
-              {cart.map((item) => {
-                const product = products.find(
-                  (product) => product.id === item.id
-                );
-                return (
-                  <tr key={item.id}>
-                    <td>{product.title}</td>
-                    <td>
-                      {product.price.toLocaleString(
-                        "id-ID",
-                        {
+              {products.length > 0 &&
+                cart.map((item) => {
+                  const product = products.find(
+                    (product) => product.id === item.id
+                  );
+                  return (
+                    <tr key={item.id}>
+                      <td>{product.title}</td>
+                      <td>
+                        {product.price.toLocaleString(
+                          "id-ID",
+                          {
+                            style: "currency",
+                            currency: "USD",
+                          }
+                        )}
+                      </td>
+                      <td>{item.qty}</td>
+                      <td className="">
+                        {(
+                          product.price * item.qty
+                        ).toLocaleString("id-ID", {
                           style: "currency",
-                          currency: "IDR",
-                        }
-                      )}
-                    </td>
-                    <td>{item.qty}</td>
-                    <td className="">
-                      {(
-                        product.price * item.qty
-                      ).toLocaleString("id-ID", {
-                        style: "currency",
-                        currency: "IDR",
-                      })}
-                    </td>
-                  </tr>
-                );
-              })}
+                          currency: "USD",
+                        })}
+                      </td>
+                    </tr>
+                  );
+                })}
               <tr>
                 <td colSpan={3} className="font-bold">
                   Total Price
@@ -157,12 +151,19 @@ const MainPage = () => {
                   {" "}
                   {totalPrice.toLocaleString("id-ID", {
                     style: "currency",
-                    currency: "IDR",
+                    currency: "USD",
                   })}
                 </td>
               </tr>
             </tbody>
           </table>
+        </div>
+        <div className="flex justify-end px-4">
+          <Button
+            classname="bg-red-700"
+            onClick={handleCleanCart}>
+            Clear
+          </Button>
         </div>
         {/* <div className="mt-5 flex justify-center">
           <Count />
