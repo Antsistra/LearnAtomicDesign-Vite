@@ -3,12 +3,14 @@ import Kartu from "../Fragments/Kartu";
 import Navbar from "../Elements/Navbar";
 import { useEffect, useState } from "react";
 import { getProducts } from "../../services/products.service";
+import { getUsername } from "../../services/auth.service";
 
-const Email = localStorage.getItem("email");
+const token = localStorage.getItem("token");
 const MainPage = () => {
   const [cart, setCart] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const [products, setProducts] = useState([]);
+  const [username, setUsername] = useState("");
 
   const handleCleanCart = () => {
     setCart([]);
@@ -25,6 +27,9 @@ const MainPage = () => {
     setCart(JSON.parse(localStorage.getItem("cart")) || []);
   }, []);
 
+  useEffect(() => {
+    setUsername(getUsername(token));
+  });
   useEffect(() => {
     getProducts((data) => {
       setProducts(data);
@@ -45,8 +50,7 @@ const MainPage = () => {
   }, [cart, products]);
 
   const handleLogout = () => {
-    localStorage.removeItem("email");
-    localStorage.removeItem("password");
+    localStorage.removeItem("token");
     window.location.href = "/";
   };
 
@@ -75,7 +79,10 @@ const MainPage = () => {
 
     <>
       <Navbar>
-        <p className="hidden lg:block mt-2">{Email}</p>
+        <p className="lg:block mt-2 font-bold text-md">
+          Hello! {username}{" "}
+        </p>
+
         <Button
           classname="ml-4 bg-white font-bold text-[#172b4d]  "
           onClick={handleLogout}>

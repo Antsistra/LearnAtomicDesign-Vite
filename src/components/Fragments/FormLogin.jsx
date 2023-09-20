@@ -1,36 +1,50 @@
 import InputForm from "../Elements/Input";
 import Button from "../Elements/Button";
-import { useEffect, useRef } from "react";
-
+import { useEffect, useRef, useState } from "react";
+import { login } from "../../services/auth.service";
 const FormLogin = (props) => {
+  const [failLogin, setfailLogin] = useState("");
   const handleLogin = (event) => {
     event.preventDefault();
-    localStorage.setItem("email", event.target.Email.value);
-    localStorage.setItem(
-      "password",
-      event.target.Password.value
-    );
-    console.log(event.target.Email.value);
-    window.location.href = "/Main";
+    // {  localStorage.setItem("email", event.target.Email.value);
+    //   localStorage.setItem(
+    //     "password",
+    //     event.target.Password.value}
+    // );
+
+    // window.location.href = "/Main";
+    const data = {
+      username: event.target.username.value,
+      password: event.target.password.value,
+    };
+    login(data, (status, res) => {
+      if (status) {
+        localStorage.setItem("token", res);
+        window.location.href = "/Main";
+      } else {
+        setfailLogin(res.response.data);
+        console.log(res);
+      }
+    });
   };
 
-  const emailRef = useRef(null);
+  const usernameRef = useRef(null);
   useEffect(() => {
-    emailRef.current.focus();
+    usernameRef.current.focus();
   }, []);
   return (
     <form onSubmit={handleLogin}>
       <InputForm
-        label="Email"
-        name="Email"
-        type="Email"
-        placeholder="xxx@mail.com"
-        ref={emailRef}
+        label="username"
+        name="username"
+        type="text"
+        placeholder="John Doe"
+        ref={usernameRef}
       />
       <InputForm
-        label="Password"
-        name="Password"
-        type="Password"
+        label="password"
+        name="password"
+        type="password"
         placeholder="******"
       />
       <Button
@@ -38,6 +52,11 @@ const FormLogin = (props) => {
         type="submit">
         Login
       </Button>
+      {failLogin && (
+        <p className="text-red-500 mt-4 capitalize">
+          {failLogin}
+        </p>
+      )}
     </form>
   );
 };
