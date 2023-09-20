@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import { getProducts } from "../../services/products.service";
 import { getUsername } from "../../services/auth.service";
 
-const token = localStorage.getItem("token");
 const MainPage = () => {
   const [cart, setCart] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
@@ -16,11 +15,10 @@ const MainPage = () => {
     setCart([]);
     setTotalPrice(0);
     localStorage.removeItem("cart");
-
+    alert("Data Telah Dibersihkan");
     if (parentElement.contains(childElement)) {
       childElement.remove();
     }
-    alert("Data Telah Dibersihkan");
   };
 
   useEffect(() => {
@@ -28,7 +26,10 @@ const MainPage = () => {
   }, []);
 
   useEffect(() => {
-    setUsername(getUsername(token));
+    const token = localStorage.getItem("token");
+    token
+      ? setUsername(getUsername(token))
+      : (window.location.href = "/login");
   });
   useEffect(() => {
     getProducts((data) => {
@@ -75,8 +76,6 @@ const MainPage = () => {
   };
 
   return (
-    //<Cards title="Kucing" harga="Rp100.000">Lorem ipsum dolor sit amet.</Cards>
-
     <>
       <Navbar>
         <p className="lg:block mt-2 font-bold text-md">
@@ -172,9 +171,6 @@ const MainPage = () => {
             Clear
           </Button>
         </div>
-        {/* <div className="mt-5 flex justify-center">
-          <Count />
-            </div>*/}
       </div>
     </>
   );

@@ -6,17 +6,11 @@ const FormLogin = (props) => {
   const [failLogin, setfailLogin] = useState("");
   const handleLogin = (event) => {
     event.preventDefault();
-    // {  localStorage.setItem("email", event.target.Email.value);
-    //   localStorage.setItem(
-    //     "password",
-    //     event.target.Password.value}
-    // );
-
-    // window.location.href = "/Main";
     const data = {
       username: event.target.username.value,
       password: event.target.password.value,
     };
+
     login(data, (status, res) => {
       if (status) {
         localStorage.setItem("token", res);
