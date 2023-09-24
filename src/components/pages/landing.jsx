@@ -1,20 +1,14 @@
+import LandingNav from "../Elements/Navbar/landingNav";
 import { Link } from "react-router-dom";
-import Button from "../Elements/Button";
-
 const LandingPage = (props) => {
   return (
-    <div className="flex justify-center bg-slate-700 min-h-screen items-center ">
-      <div className=" text-white text-xl items-center ">
-        <h1 className="font-bold py-3">
-          Welcome To Testing Project{" "}
-        </h1>
-        <div className="flex justify-center">
-          <Link to="/login">
-            <Button classname="bg-red-500  ">Login</Button>
-          </Link>
-        </div>
-      </div>
-    </div>
+    <LandingNav>
+      <Link to={"/login"}>
+        <a className="text-gray-800 bg-blue-200 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800">
+          Log in
+        </a>
+      </Link>
+    </LandingNav>
   );
 };
 export default LandingPage;

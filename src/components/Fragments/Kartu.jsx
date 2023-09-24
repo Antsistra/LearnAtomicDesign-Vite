@@ -1,4 +1,5 @@
 import Button from "../Elements/Button";
+import { Link } from "react-router-dom";
 const Kartu = (props) => {
   const { children } = props;
   return (
@@ -8,12 +9,14 @@ const Kartu = (props) => {
   );
 };
 const Header = (props) => {
-  const { image } = props;
+  const { image, id } = props;
   return (
-    <img
-      className="object-cover h-40 "
-      src={image}
-      alt="Sunset in the mountains"></img>
+    <Link to={`/product/${id}`}>
+      <img
+        className="object-cover h-40 "
+        src={image}
+        alt="Sunset in the mountains"></img>
+    </Link>
   );
 };
 const Body = (props) => {

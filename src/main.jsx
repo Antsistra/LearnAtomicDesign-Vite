@@ -10,6 +10,7 @@ import RegisterPage from "./components/pages/register.jsx";
 import ErrorPage from "./components/pages/404";
 import LandingPage from "./components/pages/landing";
 import MainPage from "./components/pages/MainPage";
+import DetailProducts from "./components/pages/detailsProduct";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
   {
     path: "/Main",
     element: <MainPage />,
+  },
+  {
+    path: "/product/:id",
+    element: <DetailProducts />,
   },
 ]);
 ReactDOM.createRoot(document.getElementById("root")).render(

@@ -4,12 +4,13 @@ import Navbar from "../Elements/Navbar";
 import { useEffect, useState } from "react";
 import { getProducts } from "../../services/products.service";
 import { getUsername } from "../../services/auth.service";
+import { useLogin } from "../hooks/useLogin";
 
 const MainPage = () => {
   const [cart, setCart] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const [products, setProducts] = useState([]);
-  const [username, setUsername] = useState("");
+  const username = useLogin();
 
   const handleCleanCart = () => {
     setCart([]);
@@ -25,12 +26,6 @@ const MainPage = () => {
     setCart(JSON.parse(localStorage.getItem("cart")) || []);
   }, []);
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    token
-      ? setUsername(getUsername(token))
-      : (window.location.href = "/login");
-  });
   useEffect(() => {
     getProducts((data) => {
       setProducts(data);
@@ -94,7 +89,8 @@ const MainPage = () => {
             products.map((products) => (
               <Kartu key={products.id}>
                 <Kartu.Header
-                  image={products.image}></Kartu.Header>
+                  image={products.image}
+                  id={products.id}></Kartu.Header>
                 <Kartu.Body title={products.title}>
                   {products.description}
                 </Kartu.Body>
