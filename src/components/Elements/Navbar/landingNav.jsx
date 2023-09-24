@@ -1,7 +1,7 @@
 import { Children, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 const LandingNav = (props) => {
-  const { children } = props;
+  const { children, clicked } = props;
   const [theme, setTheme] = useState(null);
 
   useEffect(() => {
@@ -31,7 +31,7 @@ const LandingNav = (props) => {
     <div>
       <nav className="bg-white border-gray-200 px-4 lg:px-6 py-4 dark:bg-gray-800">
         <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
-          <Link to={"/"}>
+          <Link to={clicked}>
             <p className="text-xl font-bold  dark:text-white text-black ">
               Toko Pak Edi
             </p>
