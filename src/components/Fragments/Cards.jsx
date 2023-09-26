@@ -3,7 +3,7 @@ import Button from "../Elements/Button";
 const Cards = (props) => {
   const { children, harga, title } = props;
   return (
-    <div className="flex justify-center pt-40">
+    <div className="flex justify-center pt-40 ">
       <div className="max-w-sm rounded overflow-hidden shadow-lg">
         <img
           className="w-full"
