@@ -29,7 +29,7 @@ const LandingNav = (props) => {
 
   return (
     <div>
-      <nav className="bg-white border-gray-200 px-4 lg:px-6 py-4 dark:bg-gray-800">
+      <nav className=" border-gray-200 px-4 lg:px-6 py-4 bg-blue-200 dark:bg-gray-800">
         <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
           <Link to={clicked}>
             <p className="text-xl font-bold  dark:text-white text-black ">
