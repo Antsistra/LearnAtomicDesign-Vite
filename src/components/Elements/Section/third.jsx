@@ -1,7 +1,7 @@
 import Button from "../Button";
 const ThirdSection = () => {
   return (
-    <div className="gap-16 items-center py-8 px-4 mx-auto max-w-screen-xl lg:grid lg:grid-cols-2 lg:px-6 mb-64">
+    <div className="gap-16 items-center py-8 px-4 mx-auto max-w-screen-xl mt-8 lg:grid lg:grid-cols-2 lg:px-6 mb-64">
       <div className="font-light text-gray-500 sm:text-lg ">
         <h2 className="mb-4 text-4xl font-extrabold text-gray-900">
           Lorem ipsum dolor sit amet.
@@ -22,7 +22,7 @@ const ThirdSection = () => {
           tempora obcaecati tempore doloremque unde
           perspiciatis.
         </p>
-        <Button classname="h-12 px-6 bg-blue-200 mt-2 ">
+        <Button classname="h-12 px-6 bg-blue-200 mt-2 dark:bg-gray-800 dark:text-white">
           Contact Us
         </Button>
       </div>

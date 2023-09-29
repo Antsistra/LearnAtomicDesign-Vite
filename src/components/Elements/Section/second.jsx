@@ -1,7 +1,7 @@
 const SecondSection = () => {
   return (
     <div className="dark:bg-gray-400 bg-blue-200 ">
-      <div class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6  lg:mt-64 lg:mb-48 ">
+      <div class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6  mt-8 lg:mt-64 lg:mb-52 ">
         <div class="mb-8 max-w-screen-md lg:mb-16">
           <h2 class="mb-4 text-4xl font-extrabold text-gray-900 dark:text-white">
             Lorem ipsum dolor sit amet, consectetur
