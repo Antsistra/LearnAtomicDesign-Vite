@@ -17,7 +17,6 @@ const FormLogin = (props) => {
         window.location.href = "/Main";
       } else {
         setfailLogin(res.response.data);
-        console.log(res);
       }
     });
   };
