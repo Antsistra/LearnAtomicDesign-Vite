@@ -5,7 +5,7 @@ const FirstSlide = () => {
     <div className="grid py-8 px-4 mx-auto max-w-screen-xl lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12 mt-8 lg:mt-32">
       <div className="place-self-center mr-auto lg:col-span-7">
         <h1 className="mb-4 max-w-2xl text-4xl font-extrabold leading-none md:text-5xl xl:text-6xl dark:text-gray-800">
-          Lorem ipsum dolor sit amet.
+          asdasdasdasd
         </h1>
         <p className="mb-6 max-w-2xl font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">
           Lorem ipsum dolor sit amet consectetur adipisicing
