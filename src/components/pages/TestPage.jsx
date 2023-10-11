@@ -1,10 +1,12 @@
 import CardDetail from "../Elements/Cards";
-const testPage = (props) => {
-  const { children } = props;
+
+const TestPage = () => {
   return (
-    <div>
+    <div className="flex justify-center min-h-screen items-center gap-x-4">
+      <CardDetail />
+      <CardDetail />
       <CardDetail />
     </div>
   );
 };
-export default testPage;
+export default TestPage;
