@@ -11,7 +11,6 @@ import ErrorPage from "./components/pages/404";
 import LandingPage from "./components/pages/landing";
 import MainPage from "./components/pages/MainPage";
 import DetailProducts from "./components/pages/detailsProduct";
-import testPage from "./components/pages/TestPage";
 import TestPage from "./components/pages/TestPage";
 const router = createBrowserRouter([
   {

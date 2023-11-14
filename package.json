@@ -1,6 +1,7 @@
 {
   "name": "latihan1",
   "private": true,
+  "homepage": "http://belajar.aslab.or.id",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
